@@ -1,0 +1,642 @@
+/* ==========================================================================
+   1. GLOBAL STYLES, FONTS & VARIABLES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif; /* Poppins Font Applied */
+}
+
+:root {
+    --bg-light-blue: #d2e5ec;  /* Original soft blue background from image */
+    --text-dark: #1b3547;       /* Dark slate blue for typography */
+    --btn-blue: #0f2233;        /* Premium dark navy for primary buttons */
+    --white: #ffffff;
+    --border-color: #b8cfd8;
+}
+
+body {
+    background-color: var(--white);
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================================================
+   2. BUTTONS, LINKS & COMMON UI ELEMENTS
+   ========================================================================== */
+.btn-dark {
+    background-color: var(--btn-blue);
+    color: var(--white);
+    border: none;
+    padding: 12px 26px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-dark:hover {
+    background-color: var(--text-dark);
+    transform: translateY(-1px);
+}
+
+.btn-light {
+    background-color: var(--white);
+    color: var(--btn-blue);
+    border: 1px solid var(--btn-blue);
+    padding: 12px 26px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+    background-color: #f4f8fa;
+}
+
+.link-btn {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 15px;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+.link-btn:hover {
+    color: #556b78;
+}
+
+/* Image Placeholders with Dashed Borders */
+.image-placeholder {
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7a94a0;
+    font-weight: 500;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ==========================================================================
+   3. NAVBAR STYLING & ANIMATIONS (INTEGRATED SEARCH TOGGLE)
+   ========================================================================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: var(--white);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--btn-blue);
+    letter-spacing: -1px;
+}
+
+.logo-sub {
+    font-weight: 400;
+    font-size: 18px;
+    margin-left: -2px;
+}
+
+/* Base Link Styling */
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    margin: 0 22px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+    position: relative; /* Hover underline animation ke liye important hai */
+    display: inline-block;
+}
+
+.nav-links a:hover {
+    color: #556b78;
+}
+
+/* --- Premium Desktop Underline Animation --- */
+@media (min-width: 869px) {
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--btn-blue);
+        transform-origin: bottom right;
+        transition: transform 0.3s ease-out;
+    }
+    
+    .nav-links a:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+}
+
+.dropdown-icon {
+    font-size: 0.75rem;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* --- Dynamic Search Bar Container & Animation --- */
+.search-group {
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: transparent;
+    padding: 6px;
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 32px; /* Pehle sirf icon ki width jitna rahega */
+    height: 36px;
+    overflow: hidden;
+}
+
+.search-input {
+    width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    padding: 0;
+    opacity: 0;
+    color: var(--text-dark);
+    transition: all 0.4s ease;
+}
+
+.search-icon {
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    position: absolute;
+    right: 8px;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.search-icon:hover {
+    transform: scale(1.1);
+}
+
+/* JS Toggle class: Jab icon par click hoga to yeh styling automatically add ho jayegi */
+.search-group.search-active {
+    width: 220px; /* Expand ho kar width barh jayegi */
+    background-color: #f0f4f6; /* Minimal light dynamic gray overlay */
+    padding-left: 15px;
+    padding-right: 38px; /* Background text protection from icon overlap */
+    border: 1px solid var(--border-color);
+}
+
+.search-group.search-active .search-input {
+    width: 100%;
+    opacity: 1;
+}
+
+/* Body mode shifts support for warm background input adjustments */
+body.warm-mode .search-group.search-active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Burger Menu Container */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* Burger Icon Lines Style & Smooth Rotation Transition */
+.burger-menu span {
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-dark);
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ==========================================================================
+   4. HERO SECTION (WITH BG IMAGE FIX)
+   ========================================================================== */
+.hero-section {
+    /* Images folder ke andar file ka exact path */
+    background-image: url('images/hero-sec-img01.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    width: 100%;
+    min-height: 85vh; 
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 60px 0;
+}
+
+.hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--btn-blue);
+    font-weight: 700;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: 35px;
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+/* ==========================================================================
+   HERO SECTION 02 (RECTIFIED & CENTERED)
+   ========================================================================== */
+.hero-section2 {
+    /* Images folder ke andar file ka exact path */
+    background-image: url('images/img-03.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    width: 100%;
+    min-height: 85vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Horizontally center cross-axis alignment */
+    position: relative;
+    padding: 60px 0;
+}
+
+/* Container fix: Yeh text ko screen ke kinarey se chipakne nahi dega */
+.container2 {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto; /* Left aur right se layout ko wrap kar ke center karega */
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-content2 {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto; /* Double security for alignment */
+}
+
+.hero-content2 h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--btn-blue);
+    font-weight: 700;
+}
+
+.hero-content2 p {
+    font-size: 1.1rem;
+    margin-bottom: 35px;
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+/* Responsive optimization for mobile devices */
+@media (max-width: 768px) {
+    .hero-section2 {
+        min-height: 65vh;
+        background-position: 65% center; /* Mobile screen par focus shifts to center */
+    }
+
+    .hero-content2 h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-content2 p {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+}
+/* ==========================================================================
+   5. FEATURE SECTIONS (SPLIT LAYOUT)
+   ========================================================================== */
+.feature-section {
+    padding: 90px 0;
+}
+
+.white-bg {
+    background-color: var(--white);
+}
+
+.pt-0 {
+    padding-top: 0;
+}
+
+.split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.text-side h2 {
+    font-size: 2.6rem;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.text-side p {
+    line-height: 1.7;
+    margin-bottom: 30px;
+    color: #556b78;
+    font-size: 0.98rem;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #7a94a0;
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.cta-group {
+    display: flex;
+    align-items: center;
+}
+
+.chair-placeholder {
+    height: 480px;
+    background-color: #f7f9fa;
+}
+
+.decor-placeholder {
+    height: 420px;
+    background-color: #f7f9fa;
+}
+.image-side img{
+width: 450px;
+height: 500px;
+border-radius: 30px;
+}
+/* ==========================================================================
+   6. GALLERY SECTION
+   ========================================================================== */
+.gallery-section {
+    background-color: var(--bg-light-blue);
+    padding: 70px 0;
+}
+
+.gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.gallery-header h2 {
+    font-size: 2.2rem;
+    max-width: 600px;
+    font-weight: 600;
+}
+
+.gallery-placeholder {
+    height: 450px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ==========================================================================
+   7. FOOTER STYLING
+   ========================================================================== */
+.footer {
+    background-color: #f4f8fa;
+    padding: 70px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr 2fr;
+    gap: 40px;
+}
+
+.brand-col h3 {
+    font-size: 1.8rem;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.footer-col h4 {
+    margin-bottom: 22px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.footer-col a {
+    display: block;
+    color: #556b78;
+    text-decoration: none;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.footer-col a:hover {
+    color: var(--btn-blue);
+}
+
+.footer-col p {
+    color: #556b78;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.newsletter-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.newsletter-box {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.newsletter-box input {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    padding-left: 18px;
+    flex: 1;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.newsletter-box input:focus {
+    border-color: var(--text-dark);
+}
+
+/* ==========================================================================
+   8. RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 992px) {
+    .split-layout {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+    
+    .split-layout.reverse {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile Navbar Drawer */
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 75px;
+        left: 0;
+        width: 100%;
+        background-color: var(--white);
+        flex-direction: column;
+        padding: 25px 0;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        border-top: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        margin: 14px 0;
+        display: block;
+        font-size: 1.05rem;
+    }
+
+    .burger-menu {
+        display: flex;
+    }
+
+    /* Hero Section Fine-tuning for Mobile */
+    .hero-section {
+        min-height: 65vh;
+        background-position: 65% center; /* Adjusts layout focal point */
+    }
+
+    .hero-content h1 {
+        font-size: 2.4rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    /* Content Typography Scaling */
+    .text-side h2 {
+        font-size: 2rem;
+    }
+
+    .gallery-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .gallery-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+/* ==========================================================================
+   INTERACTIVE ELEMENTS STYLING (JS DOM)
+   ========================================================================== */
+
+/* Theme Toggle Button Floating */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--btn-blue);
+    color: var(--white);
+    padding: 10px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    z-index: 9999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+}
+
+/* Dynamic Classes jo JS toggle karega */
+body.warm-mode {
+    --white: #f5ece1;         /* Warm Candlelight Warm Beige */
+    --bg-light-blue: #e3d5c1;  /* Matching soft warm tone */
+    --text-dark: #2c2219;
+    --btn-blue: #4a3625;
+    background-color: var(--white);
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Nav links mobile par transition active karne k liye */
+.nav-links {
+    transition: all 0.3s ease-in-out;
+}
